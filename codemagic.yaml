@@ -1,0 +1,23 @@
+workflows:
+  android-build:
+    name: ScreenWise Android Build
+    max_build_duration: 60
+
+    environment:
+      android_signing:
+        - keystore_reference
+
+      groups:
+        - google_credentials
+
+      vars:
+        PACKAGE_NAME: "com.example.screenwise"
+
+    scripts:
+      - name: Build APK
+        script: |
+          chmod +x ./gradlew
+          ./gradlew assembleRelease
+
+    artifacts:
+      - app/build/outputs/**/*.apk

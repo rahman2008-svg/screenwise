@@ -1,0 +1,6 @@
+{
+  "name": "ScreenWise",
+  "description": "Your premium digital wellbeing, phone detox, and productivity manager with custom focus modes, sleeping companion, and gamified challenges.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
