@@ -1,23 +1,36 @@
 workflows:
-  android-build:
-    name: ScreenWise Android Build
+  screenwise-debug:
+    name: ScreenWise Debug APK
     max_build_duration: 60
 
     environment:
-      android_signing:
-        - keystore_reference
+      java: 17
 
-      groups:
-        - google_credentials
-
-      vars:
-        PACKAGE_NAME: "com.example.screenwise"
+    cache:
+      cache_paths:
+        - ~/.gradle/caches
+        - ~/.gradle/wrapper
 
     scripts:
-      - name: Build APK
+      - name: Accept Android SDK licenses
+        script: yes | sdkmanager --licenses || true
+
+      - name: Set Android SDK location
         script: |
-          chmod +x ./gradlew
-          ./gradlew assembleRelease
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+
+      - name: Make Gradle executable
+        script: chmod +x ./gradlew
+
+      - name: Build Debug APK
+        script: ./gradlew assembleDebug --stacktrace
 
     artifacts:
       - app/build/outputs/**/*.apk
+      - app/build/reports/**
+
+    publishing:
+      email:
+        notify:
+          success: true
+          failure: true
